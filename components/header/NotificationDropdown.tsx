@@ -92,9 +92,9 @@ export default function NotificationDropdown() {
 
 							<span className="block">
 								<span className="mb-1.5 space-x-1 block text-theme-sm text-gray-500 dark:text-gray-400">
-									<span className="font-medium text-gray-800 dark:text-white/90">Terry Franci</span>
+									<span className="font-medium text-gray-800 dark:text-white/90">msdev</span>
 									<span>requests permission to change</span>
-									<span className="font-medium text-gray-800 dark:text-white/90">Project - Nganter App</span>
+									<span className="font-medium text-gray-800 dark:text-white/90">Project - Geo Tag</span>
 								</span>
 
 								<span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
