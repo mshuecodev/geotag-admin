@@ -31,16 +31,16 @@ const navItems: NavItem[] = [
 		path: "/profile"
 	},
 
-	{
-		name: "Forms",
-		icon: <ListIcon />,
-		subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }]
-	},
-	{
-		name: "Tables",
-		icon: <TableIcon />,
-		subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }]
-	},
+	// {
+	// 	name: "Forms",
+	// 	icon: <ListIcon />,
+	// 	subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }]
+	// },
+	// {
+	// 	name: "Tables",
+	// 	icon: <TableIcon />,
+	// 	subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }]
+	// },
 	{
 		name: "Pages",
 		icon: <PageIcon />,
