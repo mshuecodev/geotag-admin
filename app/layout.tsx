@@ -4,9 +4,9 @@ import "./globals.css"
 
 import { SidebarProvider } from "@/context/SidebarContext"
 import { ThemeProvider } from "@/context/ThemeContext"
-import { store } from "@/redux/store"
 
-import { Provider } from "react-redux"
+// store
+import ReduxProvider from "@/components/redux/ReduxProvider"
 
 const outfit = Outfit({
 	variable: "--font-outfit-sans",
@@ -26,11 +26,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${outfit.variable} dark:bg-gray-900`}>
-				<Provider store={store}>
-					<ThemeProvider>
-						<SidebarProvider>{children}</SidebarProvider>
-					</ThemeProvider>
-				</Provider>
+				<ThemeProvider>
+					<SidebarProvider>
+						<ReduxProvider>{children}</ReduxProvider>
+					</SidebarProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	)
