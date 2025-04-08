@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AppDispatch } from "../index"
-import { createAsyncAction } from "../helpers/createAsyncAction"
+import { createAsyncAction } from "@/store/helpers/createAsyncAction"
 import { ExampleData } from "@/types/example"
 import { fetchExampleDataFromAPI, addExampleDataToAPI, deleteExampleDataFromAPI } from "@/services/exampleService"
 
