@@ -9,7 +9,6 @@ const ExampleComponent: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>()
 	const { data, loading, error } = useSelector((state: RootState) => state.example)
 
-	console.log("data", data)
 	useEffect(() => {
 		dispatch(fetchExampleData())
 	}, [dispatch])
@@ -19,6 +18,7 @@ const ExampleComponent: React.FC = () => {
 
 	return (
 		<ul>
+			<li>{data?.message || [""]}</li>
 			{/* {data.map((item) => (
 				<li key={item.id}>{item.name}</li>
 			))} */}

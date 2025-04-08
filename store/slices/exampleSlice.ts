@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AppDispatch } from "../index"
-import api from "@/services/api"
+import { createAsyncAction } from "../helpers/createAsyncAction"
+import { ExampleData } from "@/types/example"
+import { fetchExampleDataFromAPI, addExampleDataToAPI, deleteExampleDataFromAPI } from "@/services/exampleService"
 
 interface ExampleState {
 	data: any[]
@@ -29,20 +31,49 @@ const exampleSlice = createSlice({
 		fetchDataFailure(state, action: PayloadAction<string>) {
 			state.loading = false
 			state.error = action.payload
+		},
+		addDataSuccess(state, action: PayloadAction<ExampleData>) {
+			state.data.push(action.payload)
+		},
+		deleteDataSuccess(state, action: PayloadAction<number>) {
+			state.data = state.data.filter((item) => item.id !== action.payload)
 		}
 	}
 })
 
-export const { fetchDataStart, fetchDataSuccess, fetchDataFailure } = exampleSlice.actions
+export const {
+	fetchDataStart,
+	fetchDataSuccess,
+	fetchDataFailure,
+
+	addDataSuccess,
+	deleteDataSuccess
+} = exampleSlice.actions
 
 export const fetchExampleData = () => async (dispatch: AppDispatch) => {
-	dispatch(fetchDataStart())
-	try {
-		const response = await api.get("/auth/test")
-		dispatch(fetchDataSuccess(response.data))
-	} catch (error: any) {
-		dispatch(fetchDataFailure(error.message))
-	}
+	await createAsyncAction(dispatch, fetchExampleDataFromAPI, {
+		start: fetchDataStart,
+		success: fetchDataSuccess,
+		failure: fetchDataFailure
+	})
+}
+
+// Add new data (POST)
+export const addExampleData = (newData: ExampleData) => async (dispatch: AppDispatch) => {
+	await createAsyncAction(dispatch, () => addExampleDataToAPI(newData), {
+		start: fetchDataStart,
+		success: addDataSuccess,
+		failure: fetchDataFailure
+	})
+}
+
+// Delete data (DELETE)
+export const deleteExampleData = (id: number) => async (dispatch: AppDispatch) => {
+	await createAsyncAction(dispatch, () => deleteExampleDataFromAPI(id), {
+		start: fetchDataStart,
+		success: () => deleteDataSuccess(id),
+		failure: fetchDataFailure
+	})
 }
 
 export default exampleSlice.reducer
