@@ -51,9 +51,10 @@ export const loginUser = (email: string, password: string) => async (dispatch: A
 	dispatch(authStart())
 	try {
 		const { token } = await login(email, password)
-		localStorage.setItem("authToken", token) // Store token (or use cookies)
-		const user = await fetchUser()
-		dispatch(authSuccess(user))
+		console.log("res login", token)
+		// localStorage.setItem("authToken", token) // Store token (or use cookies)
+		// const user = await fetchUser()
+		// dispatch(authSuccess(token))
 	} catch (error: any) {
 		dispatch(authFailure(error.message))
 	}

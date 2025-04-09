@@ -8,12 +8,28 @@ import Button from "@/components/ui/button/Button"
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons/index"
 import Link from "next/link"
 
+import { useDispatch, useSelector } from "react-redux"
+import { loginUser } from "@/store/slices/authSlice"
+import { RootState } from "@/store"
+
 export default function SignInForm() {
+	const dispatch = useDispatch()
+	const { error } = useSelector((state: RootState) => state.auth)
+
 	const [showPassword, setShowPassword] = useState<boolean>(false)
 	const [isChecked, setIsChecked] = useState<boolean>(false)
+
+	const [email, setEmail] = useState("")
+	const [password, setPassword] = useState("")
+
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault()
+		dispatch(loginUser(email, password))
+	}
+
 	return (
 		<div className="flex flex-col flex-1 lg:w-1/2 w-full">
-			<div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
+			{/* <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
 				<Link
 					href="/"
 					className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -21,7 +37,7 @@ export default function SignInForm() {
 					<ChevronLeftIcon />
 					Back to dashboard
 				</Link>
-			</div>
+			</div> */}
 			<div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
 				<div>
 					<div className="mb-5 sm:mb-8">
@@ -29,6 +45,7 @@ export default function SignInForm() {
 						<p className="text-sm text-gray-500 dark:text-gray-400">Enter your email and password to sign in!</p>
 					</div>
 					<div>
+						{/* social media button */}
 						<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5">
 							<button className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10">
 								<svg
@@ -71,6 +88,7 @@ export default function SignInForm() {
 								Sign in with X
 							</button>
 						</div>
+
 						<div className="relative py-3 sm:py-5">
 							<div className="absolute inset-0 flex items-center">
 								<div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
@@ -79,7 +97,9 @@ export default function SignInForm() {
 								<span className="p-2 text-gray-400 bg-white dark:bg-gray-900 sm:px-5 sm:py-2">Or</span>
 							</div>
 						</div>
-						<form>
+
+						{/* FORM LOGIN */}
+						<form onSubmit={handleSubmit}>
 							<div className="space-y-6">
 								<div>
 									<Label>
@@ -88,6 +108,9 @@ export default function SignInForm() {
 									<Input
 										placeholder="info@gmail.com"
 										type="email"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
+										required
 									/>
 								</div>
 								<div>
@@ -98,6 +121,9 @@ export default function SignInForm() {
 										<Input
 											type={showPassword ? "text" : "password"}
 											placeholder="Enter your password"
+											value={password}
+											onChange={(e) => setPassword(e.target.value)}
+											required
 										/>
 										<span
 											onClick={() => setShowPassword(!showPassword)}
@@ -124,11 +150,13 @@ export default function SignInForm() {
 								</div>
 								<div>
 									<Button
+										type="submit"
 										className="w-full"
 										size="sm"
 									>
 										Sign in
 									</Button>
+									{error && <p className="text-red-500">{error}</p>}
 								</div>
 							</div>
 						</form>
