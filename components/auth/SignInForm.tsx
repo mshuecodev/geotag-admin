@@ -1,5 +1,6 @@
 "use client"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 import Checkbox from "@/components/form/input/Checkbox"
 import Input from "@/components/form/input/InputField"
@@ -11,10 +12,13 @@ import Link from "next/link"
 import { useDispatch, useSelector } from "react-redux"
 import { loginUser } from "@/store/slices/authSlice"
 import { RootState } from "@/store"
+import { AppDispatch } from "@/store"
 
 export default function SignInForm() {
-	const dispatch = useDispatch()
-	const { error } = useSelector((state: RootState) => state.auth)
+	const router = useRouter()
+
+	const dispatch: AppDispatch = useDispatch()
+	const { error, user } = useSelector((state: RootState) => state.auth)
 
 	const [showPassword, setShowPassword] = useState<boolean>(false)
 	const [isChecked, setIsChecked] = useState<boolean>(false)
@@ -26,6 +30,13 @@ export default function SignInForm() {
 		e.preventDefault()
 		dispatch(loginUser(email, password))
 	}
+
+	// useEffect(() => {
+	// 	console.log("useEffect triggered: user =", user)
+	// 	if (user) {
+	// 		router.push("/dashboard")
+	// 	}
+	// }, [user, router])
 
 	return (
 		<div className="flex flex-col flex-1 lg:w-1/2 w-full">

@@ -27,6 +27,7 @@ const authSlice = createSlice({
 		authSuccess(state, action: PayloadAction<User>) {
 			state.loading = false
 			state.user = action.payload
+			console.log("authSuccess: user updated", action.payload)
 		},
 		authFailure(state, action: PayloadAction<string>) {
 			state.loading = false
@@ -50,11 +51,17 @@ export const {
 export const loginUser = (email: string, password: string) => async (dispatch: AppDispatch) => {
 	dispatch(authStart())
 	try {
-		const { token } = await login(email, password)
-		console.log("res login", token)
-		// localStorage.setItem("authToken", token) // Store token (or use cookies)
-		// const user = await fetchUser()
-		// dispatch(authSuccess(token))
+		const { token, user } = await login(email, password)
+
+		if (user) {
+			console.log("Login response", token, user)
+			dispatch(authSuccess(user))
+			// Set cookies
+			// document.cookie = `accessToken=${token}; path=/; secure; samesite=strict`
+			// document.cookie = `user=${JSON.stringify(user)}; path=/; secure; samesite=strict`
+		} else {
+			dispatch(authFailure("User data is undefined"))
+		}
 	} catch (error: any) {
 		dispatch(authFailure(error.message))
 	}
